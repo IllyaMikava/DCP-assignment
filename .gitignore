@@ -1,0 +1,23 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / editor files
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Python (if relevant)
+__pycache__/
+*.pyc
+
+# Node.js (if relevant)
+node_modules/
+
+# Build / cache
+dist/
+build/
+cache/
+*.tmp
