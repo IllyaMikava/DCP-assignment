@@ -15,3 +15,5 @@ def display_menu():
     print("7. Clear database")
     print("0. Exit")
     print("="*50)
+
+    
