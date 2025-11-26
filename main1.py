@@ -63,3 +63,36 @@ def search_by_title():
     df = load_dataframe()
     results = search_tunes(df, search_term)
     display_dataframe(results)
+
+def view_by_rhythm():
+    """View tunes by rhythm"""
+    df = load_dataframe()
+    rhythms = get_all_rhythms(df)
+    
+    print("\nAvailable rhythms:")
+    for r in rhythms:
+        print(f"  - {r}")
+    
+    rhythm = input("\nEnter rhythm: ")
+    results = get_tunes_by_type(df, rhythm)
+    display_dataframe(results)
+
+def show_statistics():
+    """Show database statistics"""
+    df = load_dataframe()
+    
+    print("\n" + "="*50)
+    print("DATABASE STATISTICS")
+    print("="*50)
+    print(f"Total tunes: {len(df)}")
+    print(f"Total books: {len(get_all_books(df))}")
+    
+    print("\nTunes per book:")
+    counts = count_tunes_per_book(df)
+    for book, count in counts.items():
+        print(f"  Book {book}: {count} tunes")
+    
+    print("\nRhythm distribution:")
+    rhythm_counts = df['rhythm'].value_counts()
+    for rhythm, count in rhythm_counts.items():
+        print(f"  {rhythm}: {count} tunes")
