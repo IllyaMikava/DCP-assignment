@@ -96,3 +96,37 @@ def show_statistics():
     rhythm_counts = df['rhythm'].value_counts()
     for rhythm, count in rhythm_counts.items():
         print(f"  {rhythm}: {count} tunes")
+
+def main():
+    """Main program loop"""
+    create_table()
+    
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice: ")
+        
+        if choice == '1':
+            load_files()
+        elif choice == '2':
+            view_all_tunes()
+        elif choice == '3':
+            search_by_title()
+        elif choice == '4':
+            view_by_book()
+        elif choice == '5':
+            view_by_rhythm()
+        elif choice == '6':
+            show_statistics()
+        elif choice == '7':
+            clear_database()
+            print("Database cleared!")
+        elif choice == '0':
+            print("\nGoodbye!")
+            break
+        else:
+            print("\nInvalid choice!")
+        
+        input("\nPress Enter to continue...")
+
+if __name__ == '__main__':
+    main()
