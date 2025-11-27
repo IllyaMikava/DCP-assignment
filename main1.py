@@ -64,6 +64,17 @@ def search_by_title():
     results = search_tunes(df, search_term)
     display_dataframe(results)
 
+def view_by_book():
+    """View tunes from specific book"""
+    df = load_dataframe()
+    books = get_all_books(df)
+    
+    print(f"\nAvailable books: {list(books)}")
+    book_num = int(input("Enter book number: "))
+    
+    results = get_tunes_by_book(df, book_num)
+    display_dataframe(results)
+
 def view_by_rhythm():
     """View tunes by rhythm"""
     df = load_dataframe()
