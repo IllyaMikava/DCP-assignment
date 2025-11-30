@@ -108,24 +108,24 @@ def filter_book_click():
 btn_filter_book = tk.Button(book_frame, text="Filter", command=filter_book_click, width=10)
 btn_filter_book.pack(side=tk.LEFT)
 
-# Statistics button
-def stats_click():
-    """
-    Display database statistics including total number of tunes
-    and the count of tunes per book.
-    """
-    results_text.delete(1.0, tk.END)
-    df = load_dataframe()
+# Statistics button (basic stats)
+# def stats_click():
+#     """
+#     Display database statistics including total number of tunes
+#     and the count of tunes per book.
+#     """
+#     results_text.delete(1.0, tk.END)
+#     df = load_dataframe()
     
-    results_text.insert(tk.END, f"Total tunes: {len(df)}\n\n")
+#     results_text.insert(tk.END, f"Total tunes: {len(df)}\n\n")
     
-    counts = count_tunes_per_book(df)
-    results_text.insert(tk.END, "Tunes per book:\n")
-    for book, count in counts.items():
-        results_text.insert(tk.END, f"  Book {book}: {count} tunes\n")
+#     counts = count_tunes_per_book(df)
+#     results_text.insert(tk.END, "Tunes per book:\n")
+#     for book, count in counts.items():
+#         results_text.insert(tk.END, f"  Book {book}: {count} tunes\n")
 
-btn_stats = tk.Button(window, text="Show Statistics", command=stats_click, width=20)
-btn_stats.pack(pady=5)
+# btn_stats = tk.Button(window, text="Show Statistics", command=stats_click, width=20)
+# btn_stats.pack(pady=5)
 
 # Clear database button
 def clear_click():
