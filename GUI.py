@@ -127,6 +127,25 @@ btn_filter_book.pack(side=tk.LEFT)
 # btn_stats = tk.Button(window, text="Show Statistics", command=stats_click, width=20)
 # btn_stats.pack(pady=5)
 
+def stats_click():
+    """Display comprehensive database statistics"""
+    results_text.delete(1.0, tk.END)
+    df = load_dataframe()
+    
+    # Header
+    results_text.insert(tk.END, "=" * 60 + "\n")
+    results_text.insert(tk.END, "DATABASE STATISTICS\n")
+    results_text.insert(tk.END, "=" * 60 + "\n\n")
+    
+    # Overall Statistics
+    results_text.insert(tk.END, "OVERALL STATISTICS:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    results_text.insert(tk.END, f"Total tunes in database: {len(df)}\n")
+    results_text.insert(tk.END, f"Total books: {len(df['book_number'].unique())}\n")
+    results_text.insert(tk.END, f"Total unique composers: {df['composer'].fillna('Unknown').nunique()}\n")
+    results_text.insert(tk.END, f"Total unique rhythms: {df['rhythm'].fillna('Unknown').nunique()}\n\n")
+    
+
 # Clear database button
 def clear_click():
     """
