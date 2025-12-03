@@ -1,7 +1,22 @@
 import os
 
 def parse_abc_file(filepath, book_number):
-    """Parse an ABC file and return list of tune dictionaries"""
+    """
+    Parses a single ABC music notation file and extracts tune metadata.
+
+    It reads the file line by line, looking for standard ABC header fields 
+    (like X:, T:, M:, K:, R:, C:, etc.) to populate a list of tune dictionaries.
+
+    Args:
+        filepath: The full path to the .abc file to be parsed.
+        book_number: The book identifier (integer) to be assigned to all 
+                     tunes found in this file.
+
+    Returns:
+        A list of dictionaries, where each dictionary represents a single 
+        tune and contains its metadata (e.g., 'title', 'key', 'rhythm', 
+        'reference', 'book_number').
+    """
     tunes = []
     current_tune = {}
     parsing_started = False
@@ -64,7 +79,20 @@ def parse_abc_file(filepath, book_number):
     return tunes
 
 def load_all_abc_files(base_folder='abc_books'):
-    """Load all ABC files from all book folders"""
+    """
+    Recursively scans a base directory for ABC files and loads all tunes.
+
+    It assumes a directory structure where subfolders represent book numbers, 
+    and .abc files within those subfolders contain the tune data.
+
+    Args:
+        base_folder: The root directory to start scanning from. Defaults 
+                     to 'abc_books'.
+
+    Returns:
+        A consolidated list of all tune dictionaries parsed from all .abc files 
+        found in the directory structure.
+    """
     all_tunes = []
     
     for book_folder in os.listdir(base_folder):
