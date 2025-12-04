@@ -145,6 +145,72 @@ def stats_click():
     results_text.insert(tk.END, f"Total unique composers: {df['composer'].fillna('Unknown').nunique()}\n")
     results_text.insert(tk.END, f"Total unique rhythms: {df['rhythm'].fillna('Unknown').nunique()}\n\n")
     
+    # Tunes per Book
+    results_text.insert(tk.END, "TUNES PER BOOK:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    counts = count_tunes_per_book(df)
+    for book, count in sorted(counts.items()):
+        percentage = (count / len(df)) * 100
+        results_text.insert(tk.END, f"  Book {book}: {count} tunes ({percentage:.1f}%)\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Most Popular Rhythms
+    results_text.insert(tk.END, "TOP 10 RHYTHMS:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    rhythm_counts = df['rhythm'].value_counts().head(10)
+    for rhythm, count in rhythm_counts.items():
+        percentage = (count / len(df)) * 100
+        results_text.insert(tk.END, f"  {rhythm}: {count} tunes ({percentage:.1f}%)\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Most Common Keys
+    results_text.insert(tk.END, "TOP 10 KEYS:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    key_counts = df['key_signature'].value_counts().head(10)
+    for key, count in key_counts.items():
+        percentage = (count / len(df)) * 100
+        results_text.insert(tk.END, f"  {key}: {count} tunes ({percentage:.1f}%)\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Most Common Meters
+    results_text.insert(tk.END, "TOP 10 TIME SIGNATURES:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    meter_counts = df['meter'].value_counts().head(10)
+    for meter, count in meter_counts.items():
+        percentage = (count / len(df)) * 100
+        results_text.insert(tk.END, f"  {meter}: {count} tunes ({percentage:.1f}%)\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Top Composers
+    results_text.insert(tk.END, "TOP 10 COMPOSERS:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    composer_counts = df[df['composer'] != '']['composer'].value_counts().head(10)
+    if len(composer_counts) > 0:
+        for composer, count in composer_counts.items():
+            results_text.insert(tk.END, f"  {composer}: {count} tunes\n")
+    else:
+        results_text.insert(tk.END, "  No composer information available\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Tunes with specific attributes
+    results_text.insert(tk.END, "DATA COMPLETENESS:\n")
+    results_text.insert(tk.END, "-" * 60 + "\n")
+    has_composer = len(df[df['composer'] != ''])
+    has_source = len(df[df['source'] != ''])
+    has_tempo = len(df[df['tempo'] != ''])
+    results_text.insert(tk.END, f"  Tunes with composer info: {has_composer} ({(has_composer/len(df)*100):.1f}%)\n")
+    results_text.insert(tk.END, f"  Tunes with source info: {has_source} ({(has_source/len(df)*100):.1f}%)\n")
+    results_text.insert(tk.END, f"  Tunes with tempo info: {has_tempo} ({(has_tempo/len(df)*100):.1f}%)\n")
+    results_text.insert(tk.END, "\n")
+    
+    # Footer
+    results_text.insert(tk.END, "=" * 60 + "\n")
+    results_text.insert(tk.END, "End of Statistics\n")
+    results_text.insert(tk.END, "=" * 60 + "\n")
+
+btn_stats = tk.Button(window, text="Show Statistics", command=stats_click, width=20)
+btn_stats.pack(pady=5)
+
 
 # Clear database button
 def clear_click():
