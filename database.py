@@ -93,7 +93,7 @@ def load_dataframe():
 
 def get_tunes_by_book(df, book_number):
     """Get all tunes from a specific book"""
-    return df[df['book_number'] == book_number]
+    return df[df['book_number'] == book_number] # returns array of books where book number  equals to inputed number
 
 def get_tunes_by_type(df, rhythm):
     """Get all tunes of a specific rhythm/type"""

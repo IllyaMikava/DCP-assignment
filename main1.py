@@ -8,7 +8,7 @@ stored tunes.
 
 from abc_parser import load_all_abc_files
 from database import *
-import pandas as pd # Assuming load_dataframe returns a pandas DataFrame
+import pandas as pd 
 
 def display_menu():
     """
@@ -43,7 +43,9 @@ def display_dataframe(df: pd.DataFrame):
         return
     
     print(f"\nFound {len(df)} tune(s):\n")
-    for idx, row in df.iterrows():
+    for idx, row in df.iterrows():          # Loop through each row in the DataFrame
+                                            # idx is the index (row number), row is the actual data
+                                            # iterrows() returns each row as a Series object
         print(f"ID: {row['id']}")
         print(f"  Title: {row['title']}")
         print(f"  Reference: {row['reference']}")
@@ -67,18 +69,21 @@ def load_files():
     print(f"Found {len(tunes)} tunes")
     
     print("Clearing database...")
-    clear_database()
+    clear_database() # calls in clear database function which is in database.py file
     
     print("Inserting tunes into database...")
-    insert_all_tunes(tunes)
+    insert_all_tunes(tunes) #calling in incert all tunes function and passing tunes as a parameters
     print("Done!")
 
 def view_all_tunes():
     """
     Load all tunes from the database and display them using display_dataframe.
     """
+    # Call the database function that loads all tunes into a pandas DataFrame
+    # Assigns the result to variable df (short for dataframe)
     df = load_dataframe()
-    display_dataframe(df)
+    
+    display_dataframe(df) # calling in function for printing whole datafarme in structured way
 
 def search_by_title():
     """
@@ -87,7 +92,12 @@ def search_by_title():
     """
     search_term = input("\nEnter search term: ")
     df = load_dataframe()
+
+    # Call the database function that filters the DataFrame
+    # Returns only tunes whose titles contain the search term
+    # Assigns the filtered DataFrame to results
     results = search_tunes(df, search_term)
+    #prints out reuslt values in structured way
     display_dataframe(results)
 
 def view_by_book():
@@ -139,13 +149,13 @@ def show_statistics():
     print(f"Total books: {len(get_all_books(df))}")
     
     print("\nTunes per book:")
-    counts = count_tunes_per_book(df)
-    for book, count in counts.items():
+    counts = count_tunes_per_book(df) #function from database.py which groups by tunes and counts them up and gives us dict like (1,5), (2,7)
+    for book, count in counts.items(): #book goes over book1 items and book2 items count is a value 
         print(f"  Book {book}: {count} tunes")
     
     print("\nRhythm distribution:")
     # Using df['rhythm'].value_counts() for a clean count of each rhythm
-    rhythm_counts = df['rhythm'].value_counts() 
+    rhythm_counts = df['rhythm'].value_counts() # Access the 'rhythm' column of the DataFrame and counts it 
     for rhythm, count in rhythm_counts.items():
         print(f"  {rhythm}: {count} tunes")
 

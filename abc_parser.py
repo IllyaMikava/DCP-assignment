@@ -17,32 +17,35 @@ def parse_abc_file(filepath, book_number):
         tune and contains its metadata (e.g., 'title', 'key', 'rhythm', 
         'reference', 'book_number').
     """
-    tunes = []
-    current_tune = {}
-    parsing_started = False
+
+
+    tunes = [] # list to store all tunes found in this file
+    current_tune = {} # dictionary for the tune being processed
+    parsing_started = False 
     
-    with open(filepath, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
+    with open(filepath, 'r', encoding='utf-8') as f: # open the .abc file
+        lines = f.readlines() # read all lines and stors it in list of strings
     
-    for line in lines:
-        line = line.strip()
+    for line in lines: # loop through each line
+        line = line.strip() # remove whitespace/newline
         
-        if line.startswith('X:'):
-            if current_tune:
+        if line.startswith('X:'):  # new tune starts
+            if current_tune: # if old tune was in process then save it to tunes before starting new one
                 current_tune['book_number'] = book_number
                 tunes.append(current_tune)
-            current_tune = {
+            current_tune = {   # start a new tune dictionary
                 'reference': line[2:].strip(),
                 'titles': [],
                 'composer': '',
                 'source': '',
                 'notes': ''
             }
-            
+
+        # takes out title name and strips it and if current tune still doesnt have setted title then set it with current title
         elif line.startswith('T:'):
             title = line[2:].strip()
             current_tune['titles'].append(title)
-            if 'title' not in current_tune:
+            if 'title' not in current_tune: 
                 current_tune['title'] = title
             
         elif line.startswith('M:'):
@@ -72,11 +75,12 @@ def parse_abc_file(filepath, book_number):
         elif line.startswith('B:'):
             current_tune['book_ref'] = line[2:].strip()
     
+    # after loop save the last tune was processed
     if current_tune:
         current_tune['book_number'] = book_number
         tunes.append(current_tune)
     
-    return tunes
+    return tunes 
 
 def load_all_abc_files(base_folder='abc_books'):
     """
@@ -90,21 +94,21 @@ def load_all_abc_files(base_folder='abc_books'):
                      to 'abc_books'.
 
     Returns:
-        A consolidated list of all tune dictionaries parsed from all .abc files 
+        A list of all tune dictionaries parsed from all .abc files 
         found in the directory structure.
     """
-    all_tunes = []
+    all_tunes = []  # master list to store all tunes
     
-    for book_folder in os.listdir(base_folder):
-        book_path = os.path.join(base_folder, book_folder)
+    for book_folder in os.listdir(base_folder):    # loop through folders
+        book_path = os.path.join(base_folder, book_folder)  # full path of abc files
         
-        if os.path.isdir(book_path):
-            book_number = int(book_folder)
+        if os.path.isdir(book_path):    # ensure it is a folder
+            book_number = int(book_folder) # folder name is book number
             
-            for filename in os.listdir(book_path):
-                if filename.endswith('.abc'):
-                    filepath = os.path.join(book_path, filename)
-                    tunes = parse_abc_file(filepath, book_number)
-                    all_tunes.extend(tunes)
+            for filename in os.listdir(book_path):   # loop through files inside
+                if filename.endswith('.abc'):       # check if file is .abc
+                    filepath = os.path.join(book_path, filename)  # full file pat
+                    tunes = parse_abc_file(filepath, book_number) # parse file
+                    all_tunes.extend(tunes) # add tunes to master list
     
-    return all_tunes
+    return all_tunes # return all tunes from all files
